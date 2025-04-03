@@ -1,0 +1,6 @@
+blacksheep[full]>=2.1.0
+uvicorn==0.22.0
+uvloop; platform_system != "Windows"
+pydantic-settings
+MarkupSafe
+pydantic
