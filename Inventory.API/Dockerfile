@@ -39,4 +39,4 @@ RUN apt-get update && apt-get install \
     sqlite3 \
     libsqlite3-dev \
     zlib1g-dev
-CMD ["sh", "-c", ". venv/bin/activate && uvicorn \"app.main:app\" --host 0.0.0.0 --port 80 --log-level info"]
+CMD ["sh", "-c", ". venv/bin/activate && uvicorn \"api.main:app\" --host 0.0.0.0 --port 80 --log-level info"]
