@@ -18,7 +18,6 @@ class CategoryService:
             name=category_data.get("name"),
             description=category_data.get("description"),
         )
-        print(f"Creating category: {new_category}")
         return self.category_repository.create_category(new_category)
 
     def update_category(self, id: int, updated_data: dict) -> Optional[Category]:

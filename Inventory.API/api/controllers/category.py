@@ -20,7 +20,7 @@ class InventoryCategory(Controller):
     @get()
     async def get_all(self) -> Response:
         results = self.service.get_all_categories()
-        return self.ok([result.__dict__ for result in results])
+        return self.ok([result for result in results])
 
     @get(":id")
     async def get_by_id(self, id: int) -> Response:
