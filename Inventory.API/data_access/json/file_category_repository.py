@@ -1,11 +1,12 @@
 import os
 import json
 from typing import List, Optional
-from dataclasses import asdict
+from uuid import UUID
 
 from application.interfaces.category_repository import CategoryRepository
 from domain.entities.category import Category
-from domain.entities.attribute_definition import AttributeDefinition
+from domain.entities.attribute import Attribute
+from domain.value_objects.attribute_type import get_attribute_type
 
 
 class FileCategoryRepository(CategoryRepository):
@@ -23,50 +24,50 @@ class FileCategoryRepository(CategoryRepository):
 
     def _save_categories(self):
         with open(self.file_path, "w", encoding="utf-8") as f:
-            json.dump([asdict(category) for category in self.categories], f, indent=4)
+            json.dump([category.to_dict() for category in self.categories], f, indent=4)
 
     def _dict_to_category(self, data: dict) -> Category:
         attributes = []
         for attr in data.get("attributes", []):
-            # Erzeuge ein AttributeDefinition-Objekt aus dem Dictionary
-            attribute = AttributeDefinition(**attr)
+            attribute = Attribute(
+                id=UUID(attr.get("id")),
+                name=attr.get("name"),
+                type=get_attribute_type(attr.get("type")),
+            )
             attributes.append(attribute)
         return Category(
-            id=data.get("id"),
+            id=UUID(data.get("id")),
             name=data.get("name", ""),
             description=data.get("description"),
             attributes=attributes,
         )
 
-    def get_all_categories(self) -> List[Category]:
+    def get_all(self) -> List[Category]:
         return self.categories
 
-    def get_category_by_id(self, category_id: int) -> Optional[Category]:
+    def get(self, category_id: UUID) -> Optional[Category]:
         for category in self.categories:
             if category.id == category_id:
                 return category
         return None
 
-    def create_category(self, category: Category) -> Category:
-        if category.id is None:
-            if self.categories:
-                max_id = max(cat.id for cat in self.categories if cat.id is not None)
-                category.id = max_id + 1
-            else:
-                category.id = 1
+    def add(self, category: Category) -> Category:
         self.categories.append(category)
         self._save_categories()
         return category
 
-    def update_category(
-        self, category_id: int, updated_data: dict
-    ) -> Optional[Category]:
-        category = self.get_category_by_id(category_id)
-        if category is None:
-            return None
+    def update(self, category: Category) -> Optional[Category]:
+        for idx, cat in enumerate(self.categories):
+            if cat.id == category.id:
+                self.categories[idx] = category
+                self._save_categories()
+                return category
+        return None
 
-        for key, value in updated_data.items():
-            setattr(category, key, value)
-
-        self._save_categories()
-        return category
+    def delete(self, category: Category) -> Optional[Category]:
+        for idx, cat in enumerate(self.categories):
+            if cat.id == category.id:
+                removed_category = self.categories.pop(idx)
+                self._save_categories()
+                return removed_category
+        return None

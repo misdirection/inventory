@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from uuid import UUID
 from domain.entities.category import Category
 from typing import Optional
 
@@ -10,7 +11,7 @@ class CategoryRepository(ABC):
     """
 
     @abstractmethod
-    def get_all_categories(self) -> list[Category]:
+    def get_all(self) -> list[Category]:
         """
         Retrieve all categories.
 
@@ -20,7 +21,7 @@ class CategoryRepository(ABC):
         pass
 
     @abstractmethod
-    def get_category_by_id(self, category_id) -> Optional[Category]:
+    def get(self, category_id: UUID) -> Optional[Category]:
         """
         Retrieve a category by its ID.
 
@@ -33,7 +34,7 @@ class CategoryRepository(ABC):
         pass
 
     @abstractmethod
-    def create_category(self, category) -> Category:
+    def add(self, category: Category) -> Category:
         """
         Create a new category.
         Args:
@@ -44,9 +45,7 @@ class CategoryRepository(ABC):
         pass
 
     @abstractmethod
-    def update_category(
-        self, category_id: int, updated_data: dict
-    ) -> Optional[Category]:
+    def update(self, category: Category) -> Optional[Category]:
         """
         Update an existing category.
 
@@ -56,5 +55,18 @@ class CategoryRepository(ABC):
 
         Returns:
             Optional[Category]: The updated category, or None if not found.
+        """
+        pass
+
+    @abstractmethod
+    def delete(self, category: Category) -> Optional[Category]:
+        """
+        Delete a category.
+
+        Args:
+            category (Category): The category object to delete.
+
+        Returns:
+            Optional[Category]: The deleted category, or None if not found.
         """
         pass

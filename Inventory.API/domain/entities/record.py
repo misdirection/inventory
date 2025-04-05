@@ -1,9 +1,8 @@
-from dataclasses import dataclass, field
+from dataclasses import field
 from typing import List, Optional
-from value import Value
+from domain.entities.value import Value
 
 
-@dataclass
 class Record:
     id: Optional[int] = None
     category_id: int = 0
