@@ -33,3 +33,9 @@ def get_app():
 
 
 app = get_app()
+app.use_cors(
+    allow_methods="*",
+    allow_origins="*",
+    allow_headers="* Authorization",
+    max_age=300,
+)

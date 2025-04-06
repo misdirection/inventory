@@ -22,7 +22,7 @@ class InventoryCategory(Controller):
     async def get_all(self) -> Response:
         results = self.service.get_all()
 
-        return self.ok([result.to_dict() for result in results])
+        return self.json(data=[result.to_dict() for result in results])
 
     @get(":id")
     async def get_by_id(self, id: UUID) -> Response:
@@ -31,11 +31,10 @@ class InventoryCategory(Controller):
         if result is None:
             return self.not_found()
 
-        return self.ok(result.to_dict())
+        return self.json(result.to_dict())
 
     @post()
-    async def post(self, name: str, description: str) -> Response:
-        print(name, description, flush=True)
+    async def post(self, name: str, description: Optional[str]) -> Response:
         result = self.service.create(name=name, description=description)
 
         return self.created(result.to_dict())
@@ -48,7 +47,7 @@ class InventoryCategory(Controller):
         if result is None:
             return self.not_found()
 
-        return self.ok(result.to_dict())
+        return self.json(result.to_dict())
 
     @delete(":id")
     async def delete(self, id: UUID) -> Response:
@@ -56,4 +55,4 @@ class InventoryCategory(Controller):
         if result is None:
             return self.not_found()
 
-        return self.ok(result.to_dict())
+        return self.json(result.to_dict())

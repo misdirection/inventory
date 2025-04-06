@@ -16,7 +16,7 @@ class CategoryService:
     def get(self, category_id: UUID) -> Optional[Category]:
         return self.category_repository.get(category_id)
 
-    def create(self, name: str, description: str) -> Category:
+    def create(self, name: str, description: Optional[str]) -> Category:
         new_category = Category.create(name=name, description=description)
 
         return self.category_repository.add(new_category)

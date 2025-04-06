@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "id": "bf5e4601-3f32-442e-b890-17fc9bcf7a3c",
+        "name": "Unternehmen",
+        "description": "Dienstleister / Auftraggeber",
+        "attributes": []
+    },
+    {
+        "id": "f3edb569-462f-4b01-abb2-a1ee60676860",
+        "name": "Datenarten",
+        "description": null,
+        "attributes": []
+    },
+    {
+        "id": "930b5a40-8be5-4e0e-8f03-44809eb67866",
+        "name": "Datenkategorien",
+        "description": null,
+        "attributes": []
+    }
+]
